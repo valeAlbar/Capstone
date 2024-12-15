@@ -1,3 +1,0 @@
-Backend: https://github.com/jiriquelme/Portafolio_Backend
-
-Frontend: https://github.com/jiriquelme/MyMobileApp

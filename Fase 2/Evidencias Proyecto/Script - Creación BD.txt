@@ -1,0 +1,48 @@
+-- Creación de la base de datos LlegOk
+CREATE DATABASE LlegOk;
+USE LlegOk;
+
+-- Tabla Residente
+CREATE TABLE Residente (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    RUT VARCHAR(10) NOT NULL UNIQUE,
+    DV CHAR(1) NOT NULL,
+    Nombres VARCHAR(100) NOT NULL,
+    Primer_Apellido VARCHAR(100) NOT NULL,
+    Segundo_Apellido VARCHAR(100),
+    Telefono VARCHAR(9) NOT NULL,
+    INDEX idx_rut (RUT),
+    INDEX idx_apellidos (Primer_Apellido, Segundo_Apellido)
+);
+
+-- Tabla Departamento
+CREATE TABLE Departamento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Codigo VARCHAR(10) NOT NULL UNIQUE,
+    Residente_id INT,
+    FOREIGN KEY (Residente_id) REFERENCES Residente(id) ON DELETE SET NULL,
+    INDEX idx_codigo (Codigo)
+);
+
+-- Tabla Estado
+CREATE TABLE Estado (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Estado VARCHAR(20) NOT NULL UNIQUE,
+    INDEX idx_estado (Estado)
+);
+
+-- Tabla Encomienda
+CREATE TABLE Encomienda (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Fecha_Llegada DATETIME NOT NULL,
+    Departamento_id INT,
+    Residente_id INT,
+    Fecha_Recepcion DATETIME,
+    Estado_id INT DEFAULT 1,
+    FOREIGN KEY (Departamento_id) REFERENCES Departamento(id) ON DELETE SET NULL,
+    FOREIGN KEY (Residente_id) REFERENCES Residente(id) ON DELETE SET NULL,
+    FOREIGN KEY (Estado_id) REFERENCES Estado(id) ON DELETE SET NULL,
+    INDEX idx_fecha_llegada (Fecha_Llegada),
+    INDEX idx_estado (Estado_id),
+    INDEX idx_departamento_residente (Departamento_id, Residente_id)
+);
